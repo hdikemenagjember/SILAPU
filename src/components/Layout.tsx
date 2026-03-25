@@ -14,8 +14,22 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
       await loginWithGoogle();
       navigate('/dashboard');
     } catch (error: any) {
-      console.error(error);
-      alert(`Login gagal: ${error.message || 'Terjadi kesalahan saat login'}`);
+      console.error("Login Error Details:", error);
+      let errorMsg = error.message || 'Terjadi kesalahan saat login';
+      
+      if (error.code === 'auth/popup-blocked') {
+        errorMsg = 'Browser Anda memblokir popup login. Silakan izinkan popup untuk situs ini atau buka aplikasi di tab baru.';
+      } else if (error.code === 'auth/unauthorized-domain') {
+        errorMsg = 'Domain ini belum diizinkan di Firebase Console. Pastikan URL aplikasi sudah ditambahkan di menu Authentication > Settings > Authorized domains.';
+      } else if (error.code === 'auth/popup-closed-by-user') {
+        errorMsg = 'Jendela login ditutup sebelum proses selesai. Silakan coba lagi.';
+      } else if (error.code === 'auth/network-request-failed') {
+        errorMsg = 'Gagal terhubung ke server. Periksa koneksi internet Anda.';
+      } else if (error.code === 'auth/cancelled-popup-request') {
+        errorMsg = 'Permintaan login dibatalkan karena ada permintaan login lain yang sedang berjalan.';
+      }
+      
+      alert(`Login gagal: ${errorMsg}\n\n(Kode Error: ${error.code || 'unknown'})`);
     }
   };
 
