@@ -40,7 +40,7 @@ export class ErrorBoundary extends React.Component<Props, State> {
             </div>
             <button
               onClick={() => window.location.reload()}
-              className="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-4 rounded-lg transition-colors"
+              className="w-full bg-orange-600 hover:bg-orange-700 text-white font-semibold py-3 px-4 rounded-lg transition-colors"
             >
               Muat Ulang Halaman
             </button>

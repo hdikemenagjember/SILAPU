@@ -71,7 +71,7 @@ export const Dashboard = () => {
           <h1 className="text-3xl font-bold text-gray-900">Dashboard Saya</h1>
           <p className="text-gray-600 mt-2">Pantau status pengajuan layanan Anda di sini.</p>
         </div>
-        <Button asChild className="bg-green-600 hover:bg-green-700">
+        <Button asChild className="bg-orange-600 hover:bg-orange-700">
           <Link to="/">Ajukan Layanan Baru</Link>
         </Button>
       </div>
@@ -86,7 +86,7 @@ export const Dashboard = () => {
             </div>
             <h3 className="text-xl font-semibold text-gray-800 mb-2">Belum ada pengajuan</h3>
             <p className="text-gray-500 mb-6 max-w-md">Anda belum pernah mengajukan layanan. Silakan kembali ke halaman utama untuk melihat daftar layanan yang tersedia.</p>
-            <Button asChild className="bg-green-600 hover:bg-green-700">
+            <Button asChild className="bg-orange-600 hover:bg-orange-700">
               <Link to="/">Lihat Layanan</Link>
             </Button>
           </CardContent>
@@ -95,9 +95,9 @@ export const Dashboard = () => {
         <div className="grid gap-6">
           {applications.map(app => (
             <Card key={app.id} className="overflow-hidden">
-              <div className="bg-green-50 px-6 py-4 border-b flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+              <div className="bg-orange-50 px-6 py-4 border-b flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                 <div>
-                  <p className="text-sm text-green-800 font-medium mb-1">No. Registrasi: {app.registrationNumber}</p>
+                  <p className="text-sm text-orange-800 font-medium mb-1">No. Registrasi: {app.registrationNumber}</p>
                   <h3 className="text-lg font-bold text-gray-900">{app.serviceName}</h3>
                 </div>
                 <div>{getStatusBadge(app.status)}</div>
@@ -125,7 +125,7 @@ export const Dashboard = () => {
                       Lacak Detail
                     </Button>
                     {app.status === 'completed' && app.resultDocumentUrl && (
-                      <Button className="w-full bg-green-600 hover:bg-green-700" asChild>
+                      <Button className="w-full bg-orange-600 hover:bg-orange-700" asChild>
                         <a href={app.resultDocumentUrl} target="_blank" rel="noopener noreferrer">
                           <Download className="w-4 h-4 mr-2" />
                           Unduh Dokumen

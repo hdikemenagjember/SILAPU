@@ -114,7 +114,7 @@ export const Dashboard = () => {
             applications.map(app => (
               <Card 
                 key={app.id} 
-                className={`cursor-pointer transition-colors hover:border-green-500 ${selectedApp?.id === app.id ? 'border-green-500 bg-green-50' : ''}`}
+                className={`cursor-pointer transition-colors hover:border-orange-500 ${selectedApp?.id === app.id ? 'border-orange-500 bg-orange-50' : ''}`}
                 onClick={() => {
                   setSelectedApp(app);
                   setNotes('');
@@ -136,12 +136,12 @@ export const Dashboard = () => {
         {/* Application Details & TTE Action */}
         <div className="lg:col-span-2">
           {selectedApp ? (
-            <Card className="sticky top-24 shadow-lg border-green-200">
-              <CardHeader className="bg-green-50 border-b pb-4">
+            <Card className="sticky top-24 shadow-lg border-orange-200">
+              <CardHeader className="bg-orange-50 border-b pb-4">
                 <div className="flex justify-between items-start">
                   <div>
-                    <CardTitle className="text-2xl text-green-900">{selectedApp.serviceName}</CardTitle>
-                    <p className="text-sm text-green-700 mt-1 font-mono">No. Reg: {selectedApp.registrationNumber}</p>
+                    <CardTitle className="text-2xl text-orange-900">{selectedApp.serviceName}</CardTitle>
+                    <p className="text-sm text-orange-700 mt-1 font-mono">No. Reg: {selectedApp.registrationNumber}</p>
                   </div>
                 </div>
               </CardHeader>
@@ -171,7 +171,7 @@ export const Dashboard = () => {
                   </div>
 
                   <div className="flex flex-wrap gap-3 pt-2">
-                    <Button onClick={() => handleAction(selectedApp.id, 'approve')} className="bg-green-600 hover:bg-green-700 flex-1 py-6 text-lg">
+                    <Button onClick={() => handleAction(selectedApp.id, 'approve')} className="bg-orange-600 hover:bg-orange-700 flex-1 py-6 text-lg">
                       <CheckCircle className="w-5 h-5 mr-2" /> Setujui & TTE
                     </Button>
                     <Button onClick={() => handleAction(selectedApp.id, 'reject')} variant="destructive" className="flex-1 py-6 text-lg">

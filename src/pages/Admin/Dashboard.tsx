@@ -120,7 +120,7 @@ export const Dashboard = () => {
             filteredApps.map(app => (
               <Card 
                 key={app.id} 
-                className={`cursor-pointer transition-colors hover:border-green-500 ${selectedApp?.id === app.id ? 'border-green-500 bg-green-50' : ''}`}
+                className={`cursor-pointer transition-colors hover:border-orange-500 ${selectedApp?.id === app.id ? 'border-orange-500 bg-orange-50' : ''}`}
                 onClick={() => setSelectedApp(app)}
               >
                 <CardContent className="p-4">
@@ -143,12 +143,12 @@ export const Dashboard = () => {
         {/* Application Details */}
         <div className="lg:col-span-2">
           {selectedApp ? (
-            <Card className="sticky top-24 shadow-lg border-green-200">
-              <CardHeader className="bg-green-50 border-b pb-4">
+            <Card className="sticky top-24 shadow-lg border-orange-200">
+              <CardHeader className="bg-orange-50 border-b pb-4">
                 <div className="flex justify-between items-start">
                   <div>
-                    <CardTitle className="text-2xl text-green-900">{selectedApp.serviceName}</CardTitle>
-                    <p className="text-sm text-green-700 mt-1 font-mono">No. Reg: {selectedApp.registrationNumber}</p>
+                    <CardTitle className="text-2xl text-orange-900">{selectedApp.serviceName}</CardTitle>
+                    <p className="text-sm text-orange-700 mt-1 font-mono">No. Reg: {selectedApp.registrationNumber}</p>
                   </div>
                   {getStatusBadge(selectedApp.status)}
                 </div>
@@ -230,7 +230,7 @@ export const Dashboard = () => {
                     )}
 
                     {selectedApp.status === 'completed' && (
-                      <div className="text-sm text-green-600 bg-green-50 p-3 rounded border border-green-200 w-full flex justify-between items-center">
+                      <div className="text-sm text-orange-600 bg-orange-50 p-3 rounded border border-orange-200 w-full flex justify-between items-center">
                         <span>Layanan telah selesai. Dokumen hasil telah dikirim ke pemohon.</span>
                         <Button size="sm" variant="outline" onClick={() => alert('Simulasi kirim ulang via WA')}>Kirim Ulang WA</Button>
                       </div>

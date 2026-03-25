@@ -98,41 +98,26 @@ export const Dashboard = () => {
   };
 
   const seedDefaultServices = async () => {
-    if (!confirm('Tambahkan layanan default Kemenag?')) return;
+    if (!confirm('Tambahkan layanan default Bersinar?')) return;
     const defaultServices = [
       {
-        name: 'Rekomendasi Paspor Umrah / Haji Khusus',
-        description: 'Layanan penerbitan surat rekomendasi pembuatan paspor untuk keperluan ibadah Umrah atau Haji Khusus.',
+        name: 'Layanan Administrasi Umum',
+        description: 'Layanan administrasi umum untuk masyarakat.',
         isActive: true,
         fields: [
-          { name: 'nama_biro', label: 'Nama Biro Travel', type: 'text', required: true },
-          { name: 'jadwal_berangkat', label: 'Rencana Jadwal Keberangkatan', type: 'text', required: true },
-          { name: 'scan_ktp', label: 'Scan KTP (PDF/JPG)', type: 'file', required: true },
-          { name: 'scan_kk', label: 'Scan Kartu Keluarga (PDF/JPG)', type: 'file', required: true },
-          { name: 'surat_rekomendasi', label: 'Surat Rekomendasi dari Travel (PDF)', type: 'file', required: true }
+          { name: 'nama_lengkap', label: 'Nama Lengkap', type: 'text', required: true },
+          { name: 'keperluan', label: 'Keperluan', type: 'textarea', required: true },
+          { name: 'scan_ktp', label: 'Scan KTP (PDF/JPG)', type: 'file', required: true }
         ]
       },
       {
-        name: 'Legalisir Ijazah / Piagam',
-        description: 'Layanan legalisir dokumen pendidikan (Ijazah/Piagam) madrasah atau pondok pesantren.',
+        name: 'Layanan Pengaduan Masyarakat',
+        description: 'Layanan pengaduan dan aspirasi masyarakat.',
         isActive: true,
         fields: [
-          { name: 'asal_sekolah', label: 'Asal Sekolah / Madrasah', type: 'text', required: true },
-          { name: 'tahun_lulus', label: 'Tahun Lulus', type: 'number', required: true },
-          { name: 'scan_ijazah_asli', label: 'Scan Ijazah Asli (PDF/JPG)', type: 'file', required: true },
-          { name: 'keperluan', label: 'Keperluan Legalisir', type: 'textarea', required: true }
-        ]
-      },
-      {
-        name: 'Surat Keterangan Pindah Agama (Mualaf)',
-        description: 'Layanan pencatatan dan penerbitan surat keterangan pindah agama.',
-        isActive: true,
-        fields: [
-          { name: 'agama_asal', label: 'Agama Sebelumnya', type: 'text', required: true },
-          { name: 'scan_ktp', label: 'Scan KTP (PDF/JPG)', type: 'file', required: true },
-          { name: 'scan_surat_pernyataan', label: 'Surat Pernyataan Bermaterai (PDF)', type: 'file', required: true },
-          { name: 'saksi_1', label: 'Nama Saksi 1', type: 'text', required: true },
-          { name: 'saksi_2', label: 'Nama Saksi 2', type: 'text', required: true }
+          { name: 'judul_pengaduan', label: 'Judul Pengaduan', type: 'text', required: true },
+          { name: 'deskripsi_pengaduan', label: 'Deskripsi Pengaduan', type: 'textarea', required: true },
+          { name: 'bukti_lampiran', label: 'Bukti Lampiran (PDF/JPG)', type: 'file', required: false }
         ]
       }
     ];
@@ -145,7 +130,7 @@ export const Dashboard = () => {
           updatedAt: serverTimestamp()
         });
       }
-      await logAudit('SEED_SERVICES', 'Menambahkan layanan default Kemenag');
+      await logAudit('SEED_SERVICES', 'Menambahkan layanan default Bersinar');
       alert('Layanan default berhasil ditambahkan!');
     } catch (error) {
       handleFirestoreError(error, OperationType.CREATE, 'services');
@@ -213,7 +198,7 @@ export const Dashboard = () => {
                 Load Layanan Default
               </Button>
               {!isAddingService && (
-                <Button onClick={() => setIsAddingService(true)} className="bg-green-600 hover:bg-green-700">
+                <Button onClick={() => setIsAddingService(true)} className="bg-orange-600 hover:bg-orange-700">
                   <Plus className="w-4 h-4 mr-2" /> Tambah Layanan
                 </Button>
               )}
@@ -221,9 +206,9 @@ export const Dashboard = () => {
           </div>
 
           {isAddingService && (
-            <Card className="border-green-200 shadow-md">
-              <CardHeader className="bg-green-50 border-b">
-                <CardTitle className="text-green-800">Tambah Layanan Baru</CardTitle>
+            <Card className="border-orange-200 shadow-md">
+              <CardHeader className="bg-orange-50 border-b">
+                <CardTitle className="text-orange-800">Tambah Layanan Baru</CardTitle>
               </CardHeader>
               <CardContent className="p-6 space-y-4">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -321,7 +306,7 @@ export const Dashboard = () => {
 
                 <div className="flex justify-end gap-3 pt-4 border-t">
                   <Button variant="outline" onClick={() => setIsAddingService(false)}>Batal</Button>
-                  <Button onClick={handleSaveService} className="bg-green-600 hover:bg-green-700">
+                  <Button onClick={handleSaveService} className="bg-orange-600 hover:bg-orange-700">
                     <Save className="w-4 h-4 mr-2" /> Simpan Layanan
                   </Button>
                 </div>
@@ -394,7 +379,7 @@ export const Dashboard = () => {
                     </td>
                     <td className="px-6 py-4">
                       <select 
-                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2"
+                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full p-2"
                         value={u.role}
                         onChange={(e) => handleUpdateUserRole(u.id, e.target.value)}
                         disabled={u.email === 'hdikemenagjember@gmail.com'} // Prevent changing default superadmin

@@ -127,10 +127,10 @@ export const ApplicationForm = () => {
         <ArrowLeft className="w-4 h-4 mr-2" /> Kembali
       </Button>
 
-      <Card className="border-green-100 shadow-md">
-        <CardHeader className="bg-green-50 border-b border-green-100 rounded-t-xl">
-          <CardTitle className="text-2xl text-green-900">{service.name}</CardTitle>
-          <CardDescription className="text-green-700 text-base mt-2">{service.description}</CardDescription>
+      <Card className="border-orange-100 shadow-md">
+        <CardHeader className="bg-orange-50 border-b border-orange-100 rounded-t-xl">
+          <CardTitle className="text-2xl text-orange-900">{service.name}</CardTitle>
+          <CardDescription className="text-orange-700 text-base mt-2">{service.description}</CardDescription>
         </CardHeader>
         <CardContent className="p-6">
           <form onSubmit={handleSubmit} className="space-y-6">
@@ -234,7 +234,7 @@ export const ApplicationForm = () => {
             )}
 
             <div className="pt-6 border-t flex justify-end">
-              <Button type="submit" disabled={submitting} className="w-full sm:w-auto bg-green-600 hover:bg-green-700 text-lg py-6 px-8">
+              <Button type="submit" disabled={submitting} className="w-full sm:w-auto bg-orange-600 hover:bg-orange-700 text-lg py-6 px-8">
                 {submitting ? 'Mengirim...' : (
                   <>
                     <Send className="w-5 h-5 mr-2" /> Kirim Pengajuan

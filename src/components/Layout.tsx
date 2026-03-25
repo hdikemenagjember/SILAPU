@@ -40,16 +40,16 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col">
-      <header className="bg-green-700 text-white shadow-md sticky top-0 z-50">
+      <header className="bg-orange-600 text-white shadow-md sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center">
               <Link to="/" className="flex items-center gap-2">
                 <div className="w-8 h-8 bg-white rounded-full flex items-center justify-center">
-                  <span className="text-green-700 font-bold text-xl">K</span>
+                  <span className="text-orange-600 font-bold text-xl">B</span>
                 </div>
-                <span className="font-bold text-lg hidden sm:block">Layanan Publik Kemenag Jember</span>
-                <span className="font-bold text-lg sm:hidden">Kemenag Jember</span>
+                <span className="font-bold text-lg hidden sm:block">Bersinar - Layanan Publik</span>
+                <span className="font-bold text-lg sm:hidden">Bersinar</span>
               </Link>
             </div>
             
@@ -59,7 +59,7 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
                   <div className="hidden md:flex items-center gap-2 text-sm">
                     <UserCircle className="w-5 h-5" />
                     <span>{profile?.name || user.displayName}</span>
-                    <span className="bg-green-800 px-2 py-0.5 rounded-full text-xs uppercase tracking-wider">
+                    <span className="bg-orange-700 px-2 py-0.5 rounded-full text-xs uppercase tracking-wider">
                       {profile?.role || 'public'}
                     </span>
                   </div>
@@ -74,13 +74,13 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
                     <Link to="/superadmin" className="text-sm hover:underline hidden sm:block">Super Admin</Link>
                   )}
                   
-                  <Button variant="outline" size="sm" onClick={handleLogout} className="text-green-700 border-white hover:bg-green-50">
+                  <Button variant="outline" size="sm" onClick={handleLogout} className="text-orange-600 border-white hover:bg-orange-50">
                     <LogOut className="w-4 h-4 mr-2" />
                     Keluar
                   </Button>
                 </div>
               ) : (
-                <Button variant="outline" size="sm" onClick={handleLogin} className="text-green-700 border-white hover:bg-green-50">
+                <Button variant="outline" size="sm" onClick={handleLogin} className="text-orange-600 border-white hover:bg-orange-50">
                   <LogIn className="w-4 h-4 mr-2" />
                   Login Admin / Pegawai
                 </Button>
@@ -96,8 +96,8 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
 
       <footer className="bg-gray-800 text-gray-300 py-8">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <p>&copy; {new Date().getFullYear()} Kantor Kementerian Agama Kabupaten Jember.</p>
-          <p className="text-sm mt-2 text-gray-400">Sistem Layanan Publik Terpadu Terintegrasi WhatsApp</p>
+          <p>&copy; {new Date().getFullYear()} Bersinar.</p>
+          <p className="text-sm mt-2 text-gray-400">Sistem Layanan Publik Terpadu</p>
         </div>
       </footer>
     </div>
