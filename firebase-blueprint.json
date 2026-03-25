@@ -1,0 +1,87 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "Represents a user in the system (Public, Admin, Leader, Super Admin).",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "description": "Firebase Auth UID" },
+        "name": { "type": "string", "description": "Full name" },
+        "email": { "type": "string", "format": "email", "description": "Email address" },
+        "role": { "type": "string", "enum": ["public", "admin", "leader", "superadmin"], "description": "User role" },
+        "phone": { "type": "string", "description": "WhatsApp/Phone number" },
+        "nik": { "type": "string", "description": "National ID number" },
+        "address": { "type": "string", "description": "Physical address" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "name", "email", "role", "createdAt"]
+    },
+    "Service": {
+      "title": "Service",
+      "description": "Defines a type of public service offered.",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string", "description": "Name of the service" },
+        "description": { "type": "string", "description": "Description of the service" },
+        "fields": { "type": "array", "items": { "type": "object" }, "description": "Dynamic fields required for this service" },
+        "isActive": { "type": "boolean", "description": "Whether the service is currently available" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["name", "description", "fields", "isActive", "createdAt", "updatedAt"]
+    },
+    "Application": {
+      "title": "Application",
+      "description": "A submitted request for a service by a public user.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "description": "UID of the user who submitted" },
+        "userName": { "type": "string", "description": "Name of the user" },
+        "userPhone": { "type": "string", "description": "Phone of the user" },
+        "serviceId": { "type": "string", "description": "ID of the requested service" },
+        "serviceName": { "type": "string", "description": "Name of the requested service" },
+        "status": { "type": "string", "enum": ["pending", "verified", "processing", "waiting_tte", "completed", "rejected"], "description": "Current status" },
+        "data": { "type": "object", "description": "Submitted dynamic form data" },
+        "history": { "type": "array", "items": { "type": "object" }, "description": "History of status changes" },
+        "resultDocumentUrl": { "type": "string", "description": "URL to the generated result document" },
+        "rejectionReason": { "type": "string", "description": "Reason if rejected" },
+        "leaderNotes": { "type": "string", "description": "Notes from the leader" },
+        "registrationNumber": { "type": "string", "description": "Auto-generated registration number" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "userName", "serviceId", "serviceName", "status", "data", "registrationNumber", "createdAt", "updatedAt"]
+    },
+    "AuditLog": {
+      "title": "AuditLog",
+      "description": "Log of actions performed by admins and leaders.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "description": "UID of the user who performed the action" },
+        "userName": { "type": "string", "description": "Name of the user" },
+        "action": { "type": "string", "description": "Action performed" },
+        "details": { "type": "string", "description": "Details of the action" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "userName", "action", "details", "createdAt"]
+    }
+  },
+  "firestore": {
+    "users/{userId}": {
+      "schema": { "$ref": "#/entities/User" },
+      "description": "Stores user profiles."
+    },
+    "services/{serviceId}": {
+      "schema": { "$ref": "#/entities/Service" },
+      "description": "Stores available services."
+    },
+    "applications/{applicationId}": {
+      "schema": { "$ref": "#/entities/Application" },
+      "description": "Stores submitted applications."
+    },
+    "audit_logs/{logId}": {
+      "schema": { "$ref": "#/entities/AuditLog" },
+      "description": "Stores audit logs."
+    }
+  }
+}
