@@ -67,7 +67,7 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
               ) : (
                 <Button variant="outline" size="sm" onClick={handleLogin} className="text-green-700 border-white hover:bg-green-50">
                   <LogIn className="w-4 h-4 mr-2" />
-                  Masuk / Daftar
+                  Login Admin / Pegawai
                 </Button>
               )}
             </div>

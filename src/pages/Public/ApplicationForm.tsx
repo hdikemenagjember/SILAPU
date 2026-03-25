@@ -74,7 +74,7 @@ export const ApplicationForm = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!user || !profile || !service) return;
+    if (!service) return;
 
     setSubmitting(true);
     setError('');
@@ -84,9 +84,11 @@ export const ApplicationForm = () => {
       const regNumber = `REG-${new Date().getTime().toString().slice(-6)}-${Math.floor(Math.random() * 1000)}`;
 
       const applicationData = {
-        userId: user.uid,
-        userName: profile.name || user.displayName || 'Unknown',
-        userPhone: profile.phone || formData.phone || '',
+        userId: user?.uid || 'anonymous',
+        userName: profile?.name || user?.displayName || formData.name || 'Unknown',
+        userEmail: profile?.email || user?.email || formData.email || '',
+        userPhone: profile?.phone || formData.phone || '',
+        userNik: profile?.nik || formData.nik || '',
         serviceId: service.id,
         serviceName: service.name,
         status: 'pending',
@@ -106,7 +108,8 @@ export const ApplicationForm = () => {
       // Simulate WhatsApp Notification
       console.log(`[SIMULATED WHATSAPP] To: ${applicationData.userPhone}, Message: Halo ${applicationData.userName}, pengajuan ${service.name} Anda berhasil diterima dengan nomor registrasi ${regNumber}. Kami akan segera memprosesnya.`);
       
-      navigate('/dashboard');
+      alert(`Pengajuan berhasil dikirim!\nNomor Registrasi Anda: ${regNumber}\nSimpan nomor ini untuk mengecek status pengajuan Anda.`);
+      navigate('/');
     } catch (err) {
       handleFirestoreError(err, OperationType.CREATE, 'applications');
       setError('Gagal mengirim pengajuan. Silakan coba lagi.');
@@ -138,11 +141,26 @@ export const ApplicationForm = () => {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <Label>Nama Lengkap</Label>
-                  <Input value={profile?.name || user?.displayName || ''} disabled className="bg-gray-100" />
+                  <Input 
+                    name="name"
+                    defaultValue={profile?.name || user?.displayName || ''} 
+                    onChange={handleChange}
+                    disabled={!!user} 
+                    className={user ? "bg-gray-100" : ""} 
+                    required
+                  />
                 </div>
                 <div className="space-y-2">
                   <Label>Email</Label>
-                  <Input value={profile?.email || user?.email || ''} disabled className="bg-gray-100" />
+                  <Input 
+                    name="email"
+                    type="email"
+                    defaultValue={profile?.email || user?.email || ''} 
+                    onChange={handleChange}
+                    disabled={!!user} 
+                    className={user ? "bg-gray-100" : ""} 
+                    required
+                  />
                 </div>
                 <div className="space-y-2">
                   <Label>Nomor WhatsApp (Aktif)</Label>

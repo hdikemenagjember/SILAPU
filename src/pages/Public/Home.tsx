@@ -53,11 +53,7 @@ export const Home = () => {
         </p>
         <div className="flex flex-col sm:flex-row justify-center gap-4 pt-4">
           <Button size="lg" className="bg-green-600 hover:bg-green-700 text-lg" onClick={() => {
-            if (user) navigate('/dashboard');
-            else {
-              // Trigger login via layout or custom logic
-              alert('Silakan login terlebih dahulu menggunakan tombol Masuk di pojok kanan atas.');
-            }
+            document.getElementById('services-section')?.scrollIntoView({ behavior: 'smooth' });
           }}>
             Mulai Pengajuan
           </Button>
@@ -106,7 +102,7 @@ export const Home = () => {
       </section>
 
       {/* Available Services */}
-      <section className="py-8">
+      <section id="services-section" className="py-8">
         <h2 className="text-3xl font-bold text-center mb-10 text-gray-800">Daftar Layanan Tersedia</h2>
         {loading ? (
           <div className="text-center py-10">Memuat layanan...</div>
@@ -121,10 +117,7 @@ export const Home = () => {
                   <CardDescription>{service.description}</CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <Button className="w-full bg-green-600 hover:bg-green-700" onClick={() => {
-                    if (user) navigate(`/apply/${service.id}`);
-                    else alert('Silakan login terlebih dahulu.');
-                  }}>
+                  <Button className="w-full bg-green-600 hover:bg-green-700" onClick={() => navigate(`/apply/${service.id}`)}>
                     Ajukan Sekarang
                   </Button>
                 </CardContent>

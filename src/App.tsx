@@ -1,3 +1,4 @@
+import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import { Layout } from './components/Layout';
@@ -36,11 +37,7 @@ export default function App() {
                 <PublicDashboard />
               </ProtectedRoute>
             } />
-            <Route path="/apply/:serviceId" element={
-              <ProtectedRoute allowedRoles={['public', 'admin', 'leader', 'superadmin']}>
-                <ApplicationForm />
-              </ProtectedRoute>
-            } />
+            <Route path="/apply/:serviceId" element={<ApplicationForm />} />
 
             {/* Admin Routes */}
             <Route path="/admin" element={

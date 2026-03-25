@@ -133,7 +133,9 @@ service cloud.firestore {
              data.registrationNumber is string && data.registrationNumber.size() > 0 && data.registrationNumber.size() < 50 &&
              data.createdAt is timestamp &&
              data.updatedAt is timestamp &&
+             (!('userEmail' in data) || (data.userEmail is string && data.userEmail.size() <= 100)) &&
              (!('userPhone' in data) || (data.userPhone is string && data.userPhone.size() <= 20)) &&
+             (!('userNik' in data) || (data.userNik is string && data.userNik.size() <= 20)) &&
              (!('history' in data) || (data.history is list && data.history.size() <= 100)) &&
              (!('resultDocumentUrl' in data) || (data.resultDocumentUrl is string && data.resultDocumentUrl.size() <= 500)) &&
              (!('rejectionReason' in data) || (data.rejectionReason is string && data.rejectionReason.size() <= 500)) &&
@@ -165,9 +167,8 @@ service cloud.firestore {
     }
 
     match /applications/{applicationId} {
-      allow read: if isAuthenticated() && (request.auth.uid == resource.data.userId || isAdmin() || isLeader());
-      allow create: if isAuthenticated() && isValidApplication(request.resource.data) && 
-                    request.resource.data.userId == request.auth.uid &&
+      allow read: if (isAuthenticated() && (request.auth.uid == resource.data.userId || isAdmin() || isLeader()));
+      allow create: if isValidApplication(request.resource.data) && 
                     request.resource.data.status == 'pending';
       allow update: if isAuthenticated() && isValidApplication(request.resource.data) && 
                     request.resource.data.userId == resource.data.userId && // Immutable userId
