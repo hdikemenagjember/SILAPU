@@ -13,8 +13,9 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
     try {
       await loginWithGoogle();
       navigate('/dashboard');
-    } catch (error) {
+    } catch (error: any) {
       console.error(error);
+      alert(`Login gagal: ${error.message || 'Terjadi kesalahan saat login'}`);
     }
   };
 

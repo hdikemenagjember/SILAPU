@@ -14,20 +14,28 @@ export const loginWithGoogle = async () => {
     const result = await signInWithPopup(auth, googleProvider);
     const user = result.user;
     
-    // Check if user exists in Firestore
-    const userRef = doc(db, 'users', user.uid);
-    const userSnap = await getDoc(userRef);
-    
-    if (!userSnap.exists()) {
-      // Create new user profile
-      await setDoc(userRef, {
-        uid: user.uid,
-        name: user.displayName || 'User',
-        email: user.email,
-        role: 'public', // Default role
-        createdAt: serverTimestamp()
-      });
+    try {
+      // Check if user exists in Firestore
+      const userRef = doc(db, 'users', user.uid);
+      const userSnap = await getDoc(userRef);
+      
+      if (!userSnap.exists()) {
+        // Create new user profile
+        await setDoc(userRef, {
+          uid: user.uid,
+          name: user.displayName || 'User',
+          email: user.email,
+          role: 'public', // Default role
+          createdAt: serverTimestamp()
+        });
+      }
+    } catch (firestoreError) {
+      console.error("Firestore error during login profile creation:", firestoreError);
+      // We don't throw here so the user can still log in even if profile creation fails,
+      // but we should probably handle it or log it properly.
+      // handleFirestoreError(firestoreError, OperationType.GET, 'users');
     }
+    
     return user;
   } catch (error) {
     console.error("Error logging in with Google", error);
