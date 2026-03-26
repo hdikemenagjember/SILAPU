@@ -168,8 +168,8 @@ service cloud.firestore {
 
     match /applications/{applicationId} {
       allow read: if (isAuthenticated() && (request.auth.uid == resource.data.userId || isAdmin() || isLeader()));
-      allow create: if isValidApplication(request.resource.data) && 
-                    request.resource.data.status == 'pending';
+      allow create: if isAuthenticated() && isValidApplication(request.resource.data) && 
+                    request.resource.data.status == 'pending' && request.resource.data.userId == request.auth.uid;
       allow update: if isAuthenticated() && isValidApplication(request.resource.data) && 
                     request.resource.data.userId == resource.data.userId && // Immutable userId
                     ((request.auth.uid == resource.data.userId && request.resource.data.status == resource.data.status) || isAdmin() || isLeader());

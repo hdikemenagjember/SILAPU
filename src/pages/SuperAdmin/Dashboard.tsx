@@ -8,6 +8,7 @@ import { Label } from '../../components/ui/label';
 import { Textarea } from '../../components/ui/textarea';
 import { Badge } from '../../components/ui/badge';
 import { Settings, Users, Plus, Trash2, Save } from 'lucide-react';
+import { defaultServicesData } from '../../data/servicesData';
 
 interface ServiceField {
   name: string;
@@ -100,37 +101,8 @@ export const Dashboard = () => {
   const seedDefaultServices = async () => {
     if (!confirm('Tambahkan layanan default Bersinar?')) return;
     
-    const serviceNames = [
-      "Pendaftaran Haji", "Pembatalan Haji", "Pelimpahan Porsi Haji", "Permohonan Cuti Haji",
-      "Pengecekan Porsi Haji", "Mutasi Haji", "Penggabungan Mahram", "Pendampingan Lansia",
-      "Rekomendasi Pembukaan Kantor Cabang Penyelenggara Perjalanan Ibadah Umroh (PPIU)", 
-      "Mutasi Siswa", "Rekomendasi Kegiatan", "Pergantian Kepala Madrasah", 
-      "Rekomendasi Pergantian Specimen TTD Kamad/Bendahara Madrasah",
-      "Rekomendasi Bantuan Sarana Prasarana Madrasah", "Rekomendasi Ijin Operasional Madrasah",
-      "Legalisir Ijazah Madrasah/PKPPS", "Pengesahan Surat Keterangan Pengganti Ijazah/SKHUN",
-      "Pengesahan Surat Keterangan Kesalahan Penulisan Ijazah", "Pengesahan Surat Keterangan kerusakan Ijazah",
-      "Permohonan Ijin penelitian", "Pernohonan Rohaniwan", "Data Keagamaan dan Pendidikan",
-      "Permohonan Narasumber", "Piagam Masjid/musholla", "Muallaf", "Piagam Majelis Taklim",
-      "Pendaftaran Nikah", "Pendataran Tanah Wakaf", "Jadwal Sholat", "Pengajuan Izin Operasional Pesantren",
-      "Pengajuan Izin Operasional Madrasah Diniyah (Madin)", "Pengajuan Izin Operasional LPQ",
-      "IJOP PKPPS", "Rekomendasi Bantuan Sarana Prasarana Pondok Pesantren/Madin/TPQ",
-      "Permohonan Ijin Studi ke luar Negeri", "Ijin Tinggal Sementara (ITAS) bagi Warga Negara Asing",
-      "Permohonan Pembuatan Akun Siaga dan EMIS PAI", "Pengaduan Masyarakat"
-    ];
-
-    const defaultServices = serviceNames.map(name => ({
-      name,
-      description: `Layanan ${name} pada sistem Bersinar.`,
-      isActive: true,
-      fields: [
-        { name: 'nama_lengkap', label: 'Nama Lengkap', type: 'text', required: true },
-        { name: 'keperluan', label: 'Keperluan / Keterangan', type: 'textarea', required: true },
-        { name: 'berkas_pendukung', label: 'Berkas Pendukung (PDF/JPG)', type: 'file', required: true }
-      ] as ServiceField[]
-    }));
-
     try {
-      for (const svc of defaultServices) {
+      for (const svc of defaultServicesData) {
         await addDoc(collection(db, 'services'), {
           ...svc,
           createdAt: serverTimestamp(),
@@ -174,7 +146,7 @@ export const Dashboard = () => {
 
   return (
     <div className="space-y-8 max-w-7xl mx-auto">
-      <div className="bg-white/60 backdrop-blur-xl p-8 rounded-3xl border border-slate-200/60 shadow-sm">
+      <div className="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm">
         <h1 className="text-3xl font-bold text-slate-900 tracking-tight">Super Admin Panel</h1>
         <p className="text-slate-500 mt-2 text-lg">Kelola layanan, formulir dinamis, dan hak akses pengguna.</p>
       </div>
@@ -183,14 +155,14 @@ export const Dashboard = () => {
         <Button 
           variant={activeTab === 'services' ? 'default' : 'outline'} 
           onClick={() => setActiveTab('services')}
-          className={`rounded-full px-6 ${activeTab === 'services' ? 'bg-emerald-600 hover:bg-emerald-700 shadow-md shadow-emerald-200' : 'text-slate-600 hover:text-emerald-700 hover:bg-emerald-50 border-slate-200'}`}
+          className={`rounded-full px-6 ${activeTab === 'services' ? 'bg-[#1e6b4d] hover:bg-[#15523a] text-white' : 'text-slate-600 hover:text-[#1e6b4d] hover:bg-emerald-50 border-slate-200'}`}
         >
           <Settings className="w-4 h-4 mr-2" /> Kelola Layanan
         </Button>
         <Button 
           variant={activeTab === 'users' ? 'default' : 'outline'} 
           onClick={() => setActiveTab('users')}
-          className={`rounded-full px-6 ${activeTab === 'users' ? 'bg-emerald-600 hover:bg-emerald-700 shadow-md shadow-emerald-200' : 'text-slate-600 hover:text-emerald-700 hover:bg-emerald-50 border-slate-200'}`}
+          className={`rounded-full px-6 ${activeTab === 'users' ? 'bg-[#1e6b4d] hover:bg-[#15523a] text-white' : 'text-slate-600 hover:text-[#1e6b4d] hover:bg-emerald-50 border-slate-200'}`}
         >
           <Users className="w-4 h-4 mr-2" /> Kelola Pengguna
         </Button>
@@ -205,7 +177,7 @@ export const Dashboard = () => {
                 Load Layanan Default
               </Button>
               {!isAddingService && (
-                <Button onClick={() => setIsAddingService(true)} className="bg-emerald-600 hover:bg-emerald-700 text-white rounded-full shadow-md shadow-emerald-200">
+                <Button onClick={() => setIsAddingService(true)} className="bg-[#1e6b4d] hover:bg-[#15523a] text-white rounded-full">
                   <Plus className="w-4 h-4 mr-2" /> Tambah Layanan
                 </Button>
               )}
@@ -213,9 +185,9 @@ export const Dashboard = () => {
           </div>
 
           {isAddingService && (
-            <Card className="bg-white/80 backdrop-blur-xl border-slate-200/60 shadow-xl shadow-slate-200/40 rounded-3xl overflow-hidden">
-              <CardHeader className="bg-gradient-to-r from-emerald-500/10 to-teal-500/5 border-b border-slate-100 px-8 py-6">
-                <CardTitle className="text-emerald-800 text-xl font-bold">Tambah Layanan Baru</CardTitle>
+            <Card className="bg-white border-slate-200 shadow-sm rounded-3xl overflow-hidden">
+              <CardHeader className="bg-slate-50 border-b border-slate-100 px-8 py-6">
+                <CardTitle className="text-slate-900 text-xl font-bold">Tambah Layanan Baru</CardTitle>
               </CardHeader>
               <CardContent className="p-8 space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -313,7 +285,7 @@ export const Dashboard = () => {
 
                 <div className="flex justify-end gap-3 pt-6 border-t border-slate-100">
                   <Button variant="outline" onClick={() => setIsAddingService(false)} className="rounded-full border-slate-200 text-slate-600">Batal</Button>
-                  <Button onClick={handleSaveService} className="bg-emerald-600 hover:bg-emerald-700 text-white rounded-full shadow-md shadow-emerald-200">
+                  <Button onClick={handleSaveService} className="bg-[#1e6b4d] hover:bg-[#15523a] text-white rounded-full">
                     <Save className="w-4 h-4 mr-2" /> Simpan Layanan
                   </Button>
                 </div>
@@ -365,10 +337,10 @@ export const Dashboard = () => {
       {activeTab === 'users' && (
         <div className="space-y-6">
           <h2 className="text-2xl font-bold text-slate-800">Daftar Pengguna & Hak Akses</h2>
-          <div className="bg-white/80 backdrop-blur-xl rounded-3xl shadow-sm border border-slate-200/60 overflow-hidden">
+          <div className="bg-white rounded-3xl shadow-sm border border-slate-200 overflow-hidden">
             <div className="overflow-x-auto">
               <table className="w-full text-sm text-left">
-                <thead className="text-xs text-slate-500 uppercase bg-slate-50/80 border-b border-slate-200/60">
+                <thead className="text-xs text-slate-500 uppercase bg-slate-50 border-b border-slate-200">
                   <tr>
                     <th className="px-6 py-4 font-semibold">Nama Pengguna</th>
                     <th className="px-6 py-4 font-semibold">Email</th>

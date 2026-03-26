@@ -99,8 +99,8 @@ export const Dashboard = () => {
   return (
     <div className="space-y-8">
       <div>
-        <h1 className="text-3xl font-bold text-gray-900">Dashboard Pimpinan</h1>
-        <p className="text-gray-600 mt-2">Daftar dokumen yang menunggu Tanda Tangan Elektronik (TTE).</p>
+        <h1 className="text-3xl font-bold text-slate-900 tracking-tight">Dashboard Pimpinan</h1>
+        <p className="text-slate-500 mt-2">Daftar dokumen yang menunggu Tanda Tangan Elektronik (TTE).</p>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -114,7 +114,7 @@ export const Dashboard = () => {
             applications.map(app => (
               <Card 
                 key={app.id} 
-                className={`cursor-pointer transition-all duration-200 rounded-2xl border-slate-200/60 shadow-sm hover:shadow-md hover:border-emerald-300 ${selectedApp?.id === app.id ? 'border-emerald-500 bg-emerald-50/50 shadow-emerald-100' : 'bg-white'}`}
+                className={`cursor-pointer transition-all duration-200 rounded-2xl border-slate-200 shadow-sm hover:shadow-md hover:border-[#1e6b4d] ${selectedApp?.id === app.id ? 'border-[#1e6b4d] bg-emerald-50/50 shadow-emerald-100' : 'bg-white'}`}
                 onClick={() => {
                   setSelectedApp(app);
                   setNotes('');
@@ -122,7 +122,7 @@ export const Dashboard = () => {
               >
                 <CardContent className="p-5">
                   <div className="flex justify-between items-start mb-3">
-                    <span className="text-xs font-mono font-semibold text-emerald-600 bg-emerald-100/50 px-2 py-1 rounded-md">{app.registrationNumber}</span>
+                    <span className="text-xs font-mono font-semibold text-[#1e6b4d] bg-emerald-100/50 px-2 py-1 rounded-md">{app.registrationNumber}</span>
                     <Badge variant="warning">Menunggu TTE</Badge>
                   </div>
                   <h3 className="font-bold text-slate-800 line-clamp-1 text-base">{app.serviceName}</h3>
@@ -136,12 +136,12 @@ export const Dashboard = () => {
         {/* Application Details & TTE Action */}
         <div className="lg:col-span-2">
           {selectedApp ? (
-            <Card className="sticky top-24 bg-white/80 backdrop-blur-xl border-slate-200/60 shadow-xl shadow-slate-200/40 rounded-3xl overflow-hidden">
-              <CardHeader className="bg-gradient-to-r from-emerald-500/10 to-teal-500/5 border-b border-slate-100 px-8 py-6">
+            <Card className="sticky top-24 bg-white border-slate-200 shadow-sm rounded-3xl overflow-hidden">
+              <CardHeader className="bg-slate-50 border-b border-slate-100 px-8 py-6">
                 <div className="flex justify-between items-start">
                   <div>
-                    <CardTitle className="text-2xl font-bold text-slate-800 tracking-tight">{selectedApp.serviceName}</CardTitle>
-                    <p className="text-sm text-emerald-700 mt-2 font-mono font-semibold bg-emerald-100/50 inline-block px-3 py-1 rounded-md">No. Reg: {selectedApp.registrationNumber}</p>
+                    <CardTitle className="text-2xl font-bold text-slate-900 tracking-tight">{selectedApp.serviceName}</CardTitle>
+                    <p className="text-sm text-[#1e6b4d] mt-2 font-mono font-semibold bg-emerald-100/50 inline-block px-3 py-1 rounded-md">No. Reg: {selectedApp.registrationNumber}</p>
                   </div>
                 </div>
               </CardHeader>
@@ -161,20 +161,20 @@ export const Dashboard = () => {
 
                 {/* TTE Actions */}
                 <div className="border-t border-slate-100 pt-8 space-y-6">
-                  <h4 className="font-semibold text-slate-800 text-lg">Aksi Pimpinan (TTE)</h4>
+                  <h4 className="font-semibold text-slate-900 text-lg">Aksi Pimpinan (TTE)</h4>
                   
                   <div className="space-y-3">
-                    <label className="text-sm font-medium text-slate-600">Catatan Revisi / Penolakan (Opsional)</label>
+                    <label className="text-sm font-medium text-slate-700">Catatan Revisi / Penolakan (Opsional)</label>
                     <Textarea 
                       placeholder="Tambahkan catatan jika perlu revisi atau ditolak..." 
                       value={notes}
                       onChange={(e) => setNotes(e.target.value)}
-                      className="min-h-[100px] rounded-xl border-slate-200 focus:border-emerald-500 focus:ring-emerald-500"
+                      className="min-h-[100px] rounded-xl border-slate-300 focus:border-[#1e6b4d] focus:ring-[#1e6b4d]"
                     />
                   </div>
 
                   <div className="flex flex-col sm:flex-row gap-4 pt-4">
-                    <Button onClick={() => handleAction(selectedApp.id, 'approve')} className="bg-emerald-600 hover:bg-emerald-700 text-white flex-1 py-6 text-lg rounded-full shadow-lg shadow-emerald-200 transition-transform hover:scale-105">
+                    <Button onClick={() => handleAction(selectedApp.id, 'approve')} className="bg-[#1e6b4d] hover:bg-[#15523a] text-white flex-1 py-6 text-lg rounded-full shadow-lg shadow-emerald-200 transition-transform hover:scale-105">
                       <CheckCircle className="w-5 h-5 mr-2" /> Setujui & TTE
                     </Button>
                     <Button onClick={() => handleAction(selectedApp.id, 'reject')} variant="destructive" className="flex-1 py-6 text-lg rounded-full shadow-lg shadow-red-200 transition-transform hover:scale-105">

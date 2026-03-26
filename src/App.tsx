@@ -3,11 +3,14 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import { Layout } from './components/Layout';
 import { Home } from './pages/Public/Home';
+import { ServiceDetail } from './pages/Public/ServiceDetail';
+import { TrackingPage } from './pages/Public/TrackingPage';
 import { Dashboard as PublicDashboard } from './pages/Public/Dashboard';
 import { ApplicationForm } from './pages/Public/ApplicationForm';
 import { Dashboard as AdminDashboard } from './pages/Admin/Dashboard';
 import { Dashboard as LeaderDashboard } from './pages/Leader/Dashboard';
 import { Dashboard as SuperAdminDashboard } from './pages/SuperAdmin/Dashboard';
+import { Login } from './pages/Auth/Login';
 
 const ProtectedRoute = ({ children, allowedRoles }: { children: React.ReactNode, allowedRoles?: string[] }) => {
   const { user, profile, loading } = useAuth();
@@ -30,6 +33,9 @@ export default function App() {
         <Layout>
           <Routes>
             <Route path="/" element={<Home />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/layanan/:serviceId" element={<ServiceDetail />} />
+            <Route path="/lacak" element={<TrackingPage />} />
             
             {/* Public Routes */}
             <Route path="/dashboard" element={
