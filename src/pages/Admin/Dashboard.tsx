@@ -101,11 +101,11 @@ export const Dashboard = () => {
           <p className="text-gray-600 mt-2">Kelola dan verifikasi pengajuan layanan masyarakat.</p>
         </div>
         
-        <div className="flex gap-2 overflow-x-auto pb-2 w-full md:w-auto">
-          <Button variant={filter === 'all' ? 'default' : 'outline'} onClick={() => setFilter('all')} size="sm">Semua</Button>
-          <Button variant={filter === 'pending' ? 'default' : 'outline'} onClick={() => setFilter('pending')} size="sm">Baru</Button>
-          <Button variant={filter === 'verified' ? 'default' : 'outline'} onClick={() => setFilter('verified')} size="sm">Diverifikasi</Button>
-          <Button variant={filter === 'processing' ? 'default' : 'outline'} onClick={() => setFilter('processing')} size="sm">Diproses</Button>
+        <div className="flex gap-2 overflow-x-auto pb-2 w-full md:w-auto scrollbar-hide">
+          <Button variant={filter === 'all' ? 'default' : 'outline'} onClick={() => setFilter('all')} size="sm" className={filter === 'all' ? 'bg-emerald-600 hover:bg-emerald-700 rounded-full' : 'rounded-full border-slate-200 text-slate-600 hover:text-emerald-600 hover:bg-emerald-50'}>Semua</Button>
+          <Button variant={filter === 'pending' ? 'default' : 'outline'} onClick={() => setFilter('pending')} size="sm" className={filter === 'pending' ? 'bg-emerald-600 hover:bg-emerald-700 rounded-full' : 'rounded-full border-slate-200 text-slate-600 hover:text-emerald-600 hover:bg-emerald-50'}>Baru</Button>
+          <Button variant={filter === 'verified' ? 'default' : 'outline'} onClick={() => setFilter('verified')} size="sm" className={filter === 'verified' ? 'bg-emerald-600 hover:bg-emerald-700 rounded-full' : 'rounded-full border-slate-200 text-slate-600 hover:text-emerald-600 hover:bg-emerald-50'}>Diverifikasi</Button>
+          <Button variant={filter === 'processing' ? 'default' : 'outline'} onClick={() => setFilter('processing')} size="sm" className={filter === 'processing' ? 'bg-emerald-600 hover:bg-emerald-700 rounded-full' : 'rounded-full border-slate-200 text-slate-600 hover:text-emerald-600 hover:bg-emerald-50'}>Diproses</Button>
         </div>
       </div>
 
@@ -120,18 +120,18 @@ export const Dashboard = () => {
             filteredApps.map(app => (
               <Card 
                 key={app.id} 
-                className={`cursor-pointer transition-colors hover:border-orange-500 ${selectedApp?.id === app.id ? 'border-orange-500 bg-orange-50' : ''}`}
+                className={`cursor-pointer transition-all duration-200 rounded-2xl border-slate-200/60 shadow-sm hover:shadow-md hover:border-emerald-300 ${selectedApp?.id === app.id ? 'border-emerald-500 bg-emerald-50/50 shadow-emerald-100' : 'bg-white'}`}
                 onClick={() => setSelectedApp(app)}
               >
-                <CardContent className="p-4">
-                  <div className="flex justify-between items-start mb-2">
-                    <span className="text-xs font-mono text-gray-500">{app.registrationNumber}</span>
+                <CardContent className="p-5">
+                  <div className="flex justify-between items-start mb-3">
+                    <span className="text-xs font-mono font-semibold text-emerald-600 bg-emerald-100/50 px-2 py-1 rounded-md">{app.registrationNumber}</span>
                     {getStatusBadge(app.status)}
                   </div>
-                  <h3 className="font-semibold text-gray-800 line-clamp-1">{app.serviceName}</h3>
-                  <p className="text-sm text-gray-600 mt-1">{app.userName}</p>
-                  <p className="text-xs text-gray-400 mt-2 flex items-center">
-                    <Clock className="w-3 h-3 mr-1" />
+                  <h3 className="font-bold text-slate-800 line-clamp-1 text-base">{app.serviceName}</h3>
+                  <p className="text-sm text-slate-500 mt-1.5 font-medium">{app.userName}</p>
+                  <p className="text-xs text-slate-400 mt-3 flex items-center">
+                    <Clock className="w-3.5 h-3.5 mr-1.5" />
                     {app.createdAt ? format(app.createdAt.toDate(), 'dd MMM yyyy, HH:mm', { locale: id }) : '-'}
                   </p>
                 </CardContent>
@@ -143,17 +143,17 @@ export const Dashboard = () => {
         {/* Application Details */}
         <div className="lg:col-span-2">
           {selectedApp ? (
-            <Card className="sticky top-24 shadow-lg border-orange-200">
-              <CardHeader className="bg-orange-50 border-b pb-4">
+            <Card className="sticky top-24 bg-white/80 backdrop-blur-xl border-slate-200/60 shadow-xl shadow-slate-200/40 rounded-3xl overflow-hidden">
+              <CardHeader className="bg-gradient-to-r from-emerald-500/10 to-teal-500/5 border-b border-slate-100 px-8 py-6">
                 <div className="flex justify-between items-start">
                   <div>
-                    <CardTitle className="text-2xl text-orange-900">{selectedApp.serviceName}</CardTitle>
-                    <p className="text-sm text-orange-700 mt-1 font-mono">No. Reg: {selectedApp.registrationNumber}</p>
+                    <CardTitle className="text-2xl font-bold text-slate-800 tracking-tight">{selectedApp.serviceName}</CardTitle>
+                    <p className="text-sm text-emerald-700 mt-2 font-mono font-semibold bg-emerald-100/50 inline-block px-3 py-1 rounded-md">No. Reg: {selectedApp.registrationNumber}</p>
                   </div>
-                  {getStatusBadge(selectedApp.status)}
+                  <div className="mt-1">{getStatusBadge(selectedApp.status)}</div>
                 </div>
               </CardHeader>
-              <CardContent className="p-6 space-y-6">
+              <CardContent className="p-8 space-y-8">
                 
                 {/* Pemohon Info */}
                 <div>
@@ -224,15 +224,19 @@ export const Dashboard = () => {
                     )}
 
                     {selectedApp.status === 'waiting_tte' && (
-                      <div className="text-sm text-orange-600 bg-orange-50 p-3 rounded border border-orange-200 w-full">
+                      <div className="text-sm font-medium text-amber-700 bg-amber-50 p-4 rounded-xl border border-amber-200 w-full flex items-center gap-3">
+                        <Clock className="w-5 h-5 text-amber-500" />
                         Menunggu Tanda Tangan Elektronik (TTE) dari Pimpinan.
                       </div>
                     )}
 
                     {selectedApp.status === 'completed' && (
-                      <div className="text-sm text-orange-600 bg-orange-50 p-3 rounded border border-orange-200 w-full flex justify-between items-center">
-                        <span>Layanan telah selesai. Dokumen hasil telah dikirim ke pemohon.</span>
-                        <Button size="sm" variant="outline" onClick={() => alert('Simulasi kirim ulang via WA')}>Kirim Ulang WA</Button>
+                      <div className="text-sm font-medium text-emerald-700 bg-emerald-50 p-4 rounded-xl border border-emerald-200 w-full flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                        <div className="flex items-center gap-3">
+                          <CheckCircle className="w-5 h-5 text-emerald-500" />
+                          <span>Layanan telah selesai. Dokumen hasil telah dikirim ke pemohon.</span>
+                        </div>
+                        <Button size="sm" variant="outline" onClick={() => alert('Simulasi kirim ulang via WA')} className="rounded-full border-emerald-200 hover:bg-emerald-100 hover:text-emerald-800">Kirim Ulang WA</Button>
                       </div>
                     )}
                   </div>

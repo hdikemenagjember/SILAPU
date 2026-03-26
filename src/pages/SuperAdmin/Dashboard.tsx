@@ -99,28 +99,35 @@ export const Dashboard = () => {
 
   const seedDefaultServices = async () => {
     if (!confirm('Tambahkan layanan default Bersinar?')) return;
-    const defaultServices = [
-      {
-        name: 'Layanan Administrasi Umum',
-        description: 'Layanan administrasi umum untuk masyarakat.',
-        isActive: true,
-        fields: [
-          { name: 'nama_lengkap', label: 'Nama Lengkap', type: 'text', required: true },
-          { name: 'keperluan', label: 'Keperluan', type: 'textarea', required: true },
-          { name: 'scan_ktp', label: 'Scan KTP (PDF/JPG)', type: 'file', required: true }
-        ]
-      },
-      {
-        name: 'Layanan Pengaduan Masyarakat',
-        description: 'Layanan pengaduan dan aspirasi masyarakat.',
-        isActive: true,
-        fields: [
-          { name: 'judul_pengaduan', label: 'Judul Pengaduan', type: 'text', required: true },
-          { name: 'deskripsi_pengaduan', label: 'Deskripsi Pengaduan', type: 'textarea', required: true },
-          { name: 'bukti_lampiran', label: 'Bukti Lampiran (PDF/JPG)', type: 'file', required: false }
-        ]
-      }
+    
+    const serviceNames = [
+      "Pendaftaran Haji", "Pembatalan Haji", "Pelimpahan Porsi Haji", "Permohonan Cuti Haji",
+      "Pengecekan Porsi Haji", "Mutasi Haji", "Penggabungan Mahram", "Pendampingan Lansia",
+      "Rekomendasi Pembukaan Kantor Cabang Penyelenggara Perjalanan Ibadah Umroh (PPIU)", 
+      "Mutasi Siswa", "Rekomendasi Kegiatan", "Pergantian Kepala Madrasah", 
+      "Rekomendasi Pergantian Specimen TTD Kamad/Bendahara Madrasah",
+      "Rekomendasi Bantuan Sarana Prasarana Madrasah", "Rekomendasi Ijin Operasional Madrasah",
+      "Legalisir Ijazah Madrasah/PKPPS", "Pengesahan Surat Keterangan Pengganti Ijazah/SKHUN",
+      "Pengesahan Surat Keterangan Kesalahan Penulisan Ijazah", "Pengesahan Surat Keterangan kerusakan Ijazah",
+      "Permohonan Ijin penelitian", "Pernohonan Rohaniwan", "Data Keagamaan dan Pendidikan",
+      "Permohonan Narasumber", "Piagam Masjid/musholla", "Muallaf", "Piagam Majelis Taklim",
+      "Pendaftaran Nikah", "Pendataran Tanah Wakaf", "Jadwal Sholat", "Pengajuan Izin Operasional Pesantren",
+      "Pengajuan Izin Operasional Madrasah Diniyah (Madin)", "Pengajuan Izin Operasional LPQ",
+      "IJOP PKPPS", "Rekomendasi Bantuan Sarana Prasarana Pondok Pesantren/Madin/TPQ",
+      "Permohonan Ijin Studi ke luar Negeri", "Ijin Tinggal Sementara (ITAS) bagi Warga Negara Asing",
+      "Permohonan Pembuatan Akun Siaga dan EMIS PAI", "Pengaduan Masyarakat"
     ];
+
+    const defaultServices = serviceNames.map(name => ({
+      name,
+      description: `Layanan ${name} pada sistem Bersinar.`,
+      isActive: true,
+      fields: [
+        { name: 'nama_lengkap', label: 'Nama Lengkap', type: 'text', required: true },
+        { name: 'keperluan', label: 'Keperluan / Keterangan', type: 'textarea', required: true },
+        { name: 'berkas_pendukung', label: 'Berkas Pendukung (PDF/JPG)', type: 'file', required: true }
+      ] as ServiceField[]
+    }));
 
     try {
       for (const svc of defaultServices) {
@@ -166,24 +173,24 @@ export const Dashboard = () => {
   };
 
   return (
-    <div className="space-y-8">
-      <div>
-        <h1 className="text-3xl font-bold text-gray-900">Super Admin Panel</h1>
-        <p className="text-gray-600 mt-2">Kelola layanan, formulir dinamis, dan hak akses pengguna.</p>
+    <div className="space-y-8 max-w-7xl mx-auto">
+      <div className="bg-white/60 backdrop-blur-xl p-8 rounded-3xl border border-slate-200/60 shadow-sm">
+        <h1 className="text-3xl font-bold text-slate-900 tracking-tight">Super Admin Panel</h1>
+        <p className="text-slate-500 mt-2 text-lg">Kelola layanan, formulir dinamis, dan hak akses pengguna.</p>
       </div>
 
-      <div className="flex gap-4 border-b pb-4">
+      <div className="flex gap-4 border-b border-slate-200 pb-4">
         <Button 
           variant={activeTab === 'services' ? 'default' : 'outline'} 
           onClick={() => setActiveTab('services')}
-          className={activeTab === 'services' ? 'bg-gray-800 hover:bg-gray-900' : ''}
+          className={`rounded-full px-6 ${activeTab === 'services' ? 'bg-emerald-600 hover:bg-emerald-700 shadow-md shadow-emerald-200' : 'text-slate-600 hover:text-emerald-700 hover:bg-emerald-50 border-slate-200'}`}
         >
           <Settings className="w-4 h-4 mr-2" /> Kelola Layanan
         </Button>
         <Button 
           variant={activeTab === 'users' ? 'default' : 'outline'} 
           onClick={() => setActiveTab('users')}
-          className={activeTab === 'users' ? 'bg-gray-800 hover:bg-gray-900' : ''}
+          className={`rounded-full px-6 ${activeTab === 'users' ? 'bg-emerald-600 hover:bg-emerald-700 shadow-md shadow-emerald-200' : 'text-slate-600 hover:text-emerald-700 hover:bg-emerald-50 border-slate-200'}`}
         >
           <Users className="w-4 h-4 mr-2" /> Kelola Pengguna
         </Button>
@@ -192,13 +199,13 @@ export const Dashboard = () => {
       {activeTab === 'services' && (
         <div className="space-y-6">
           <div className="flex justify-between items-center">
-            <h2 className="text-xl font-semibold">Daftar Layanan</h2>
-            <div className="flex gap-2">
-              <Button variant="outline" onClick={seedDefaultServices} className="text-gray-600 border-gray-300">
+            <h2 className="text-2xl font-bold text-slate-800">Daftar Layanan</h2>
+            <div className="flex gap-3">
+              <Button variant="outline" onClick={seedDefaultServices} className="text-slate-600 border-slate-300 rounded-full hover:bg-slate-50">
                 Load Layanan Default
               </Button>
               {!isAddingService && (
-                <Button onClick={() => setIsAddingService(true)} className="bg-orange-600 hover:bg-orange-700">
+                <Button onClick={() => setIsAddingService(true)} className="bg-emerald-600 hover:bg-emerald-700 text-white rounded-full shadow-md shadow-emerald-200">
                   <Plus className="w-4 h-4 mr-2" /> Tambah Layanan
                 </Button>
               )}
@@ -206,11 +213,11 @@ export const Dashboard = () => {
           </div>
 
           {isAddingService && (
-            <Card className="border-orange-200 shadow-md">
-              <CardHeader className="bg-orange-50 border-b">
-                <CardTitle className="text-orange-800">Tambah Layanan Baru</CardTitle>
+            <Card className="bg-white/80 backdrop-blur-xl border-slate-200/60 shadow-xl shadow-slate-200/40 rounded-3xl overflow-hidden">
+              <CardHeader className="bg-gradient-to-r from-emerald-500/10 to-teal-500/5 border-b border-slate-100 px-8 py-6">
+                <CardTitle className="text-emerald-800 text-xl font-bold">Tambah Layanan Baru</CardTitle>
               </CardHeader>
-              <CardContent className="p-6 space-y-4">
+              <CardContent className="p-8 space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <Label>Nama Layanan</Label>
@@ -304,9 +311,9 @@ export const Dashboard = () => {
                   )}
                 </div>
 
-                <div className="flex justify-end gap-3 pt-4 border-t">
-                  <Button variant="outline" onClick={() => setIsAddingService(false)}>Batal</Button>
-                  <Button onClick={handleSaveService} className="bg-orange-600 hover:bg-orange-700">
+                <div className="flex justify-end gap-3 pt-6 border-t border-slate-100">
+                  <Button variant="outline" onClick={() => setIsAddingService(false)} className="rounded-full border-slate-200 text-slate-600">Batal</Button>
+                  <Button onClick={handleSaveService} className="bg-emerald-600 hover:bg-emerald-700 text-white rounded-full shadow-md shadow-emerald-200">
                     <Save className="w-4 h-4 mr-2" /> Simpan Layanan
                   </Button>
                 </div>
@@ -315,26 +322,26 @@ export const Dashboard = () => {
           )}
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {loading ? <p>Memuat layanan...</p> : services.map(service => (
-              <Card key={service.id} className={!service.isActive ? 'opacity-60' : ''}>
-                <CardHeader className="pb-2">
-                  <div className="flex justify-between items-start">
-                    <CardTitle className="text-lg">{service.name}</CardTitle>
-                    <Badge variant={service.isActive ? 'success' : 'secondary'}>
+            {loading ? <p className="text-slate-500">Memuat layanan...</p> : services.map(service => (
+              <Card key={service.id} className={`rounded-2xl border-slate-200/60 shadow-sm hover:shadow-md transition-all duration-200 ${!service.isActive ? 'opacity-60 bg-slate-50' : 'bg-white'}`}>
+                <CardHeader className="pb-3 px-6 pt-6">
+                  <div className="flex justify-between items-start gap-4">
+                    <CardTitle className="text-lg font-bold text-slate-800 leading-tight">{service.name}</CardTitle>
+                    <Badge variant={service.isActive ? 'success' : 'secondary'} className="whitespace-nowrap">
                       {service.isActive ? 'Aktif' : 'Nonaktif'}
                     </Badge>
                   </div>
                 </CardHeader>
-                <CardContent className="space-y-4">
-                  <p className="text-sm text-gray-600 line-clamp-2">{service.description}</p>
-                  <div className="text-xs text-gray-500 bg-gray-50 p-2 rounded border">
-                    <span className="font-semibold">Fields:</span> {service.fields?.length || 0} custom fields
+                <CardContent className="px-6 pb-6 space-y-4">
+                  <p className="text-sm text-slate-500 line-clamp-2">{service.description}</p>
+                  <div className="text-xs text-emerald-700 bg-emerald-50/50 p-3 rounded-xl border border-emerald-100/50 font-medium">
+                    <span className="font-bold text-emerald-800">Fields:</span> {service.fields?.length || 0} custom fields
                   </div>
-                  <div className="flex gap-2 pt-2">
+                  <div className="flex gap-3 pt-4 border-t border-slate-100">
                     <Button 
                       variant="outline" 
                       size="sm" 
-                      className="flex-1"
+                      className="flex-1 rounded-full border-slate-200 text-slate-700 hover:bg-slate-50"
                       onClick={() => handleToggleService(service.id, service.isActive)}
                     >
                       {service.isActive ? 'Nonaktifkan' : 'Aktifkan'}
@@ -342,6 +349,7 @@ export const Dashboard = () => {
                     <Button 
                       variant="destructive" 
                       size="sm" 
+                      className="rounded-full px-4"
                       onClick={() => handleDeleteService(service.id)}
                     >
                       <Trash2 className="w-4 h-4" />
@@ -356,44 +364,46 @@ export const Dashboard = () => {
 
       {activeTab === 'users' && (
         <div className="space-y-6">
-          <h2 className="text-xl font-semibold">Daftar Pengguna & Hak Akses</h2>
-          <div className="bg-white rounded-lg shadow border overflow-x-auto">
-            <table className="w-full text-sm text-left">
-              <thead className="text-xs text-gray-700 uppercase bg-gray-50 border-b">
-                <tr>
-                  <th className="px-6 py-3">Nama Pengguna</th>
-                  <th className="px-6 py-3">Email</th>
-                  <th className="px-6 py-3">Role Saat Ini</th>
-                  <th className="px-6 py-3">Ubah Role</th>
-                </tr>
-              </thead>
-              <tbody>
-                {users.map(u => (
-                  <tr key={u.id} className="border-b hover:bg-gray-50">
-                    <td className="px-6 py-4 font-medium text-gray-900">{u.name}</td>
-                    <td className="px-6 py-4 text-gray-500">{u.email}</td>
-                    <td className="px-6 py-4">
-                      <Badge variant={u.role === 'superadmin' ? 'destructive' : u.role === 'leader' ? 'warning' : u.role === 'admin' ? 'info' : 'default'}>
-                        {u.role}
-                      </Badge>
-                    </td>
-                    <td className="px-6 py-4">
-                      <select 
-                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full p-2"
-                        value={u.role}
-                        onChange={(e) => handleUpdateUserRole(u.id, e.target.value)}
-                        disabled={u.email === 'hdikemenagjember@gmail.com'} // Prevent changing default superadmin
-                      >
-                        <option value="public">Public (Masyarakat)</option>
-                        <option value="admin">Admin (Petugas)</option>
-                        <option value="leader">Leader (Pimpinan)</option>
-                        <option value="superadmin">Super Admin</option>
-                      </select>
-                    </td>
+          <h2 className="text-2xl font-bold text-slate-800">Daftar Pengguna & Hak Akses</h2>
+          <div className="bg-white/80 backdrop-blur-xl rounded-3xl shadow-sm border border-slate-200/60 overflow-hidden">
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm text-left">
+                <thead className="text-xs text-slate-500 uppercase bg-slate-50/80 border-b border-slate-200/60">
+                  <tr>
+                    <th className="px-6 py-4 font-semibold">Nama Pengguna</th>
+                    <th className="px-6 py-4 font-semibold">Email</th>
+                    <th className="px-6 py-4 font-semibold">Role Saat Ini</th>
+                    <th className="px-6 py-4 font-semibold">Ubah Role</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody className="divide-y divide-slate-100">
+                  {users.map(u => (
+                    <tr key={u.id} className="hover:bg-slate-50/50 transition-colors">
+                      <td className="px-6 py-4 font-medium text-slate-900">{u.name}</td>
+                      <td className="px-6 py-4 text-slate-500">{u.email}</td>
+                      <td className="px-6 py-4">
+                        <Badge variant={u.role === 'superadmin' ? 'destructive' : u.role === 'leader' ? 'warning' : u.role === 'admin' ? 'info' : 'default'} className="rounded-full px-3">
+                          {u.role}
+                        </Badge>
+                      </td>
+                      <td className="px-6 py-4">
+                        <select 
+                          className="bg-white border border-slate-200 text-slate-700 text-sm rounded-xl focus:ring-emerald-500 focus:border-emerald-500 block w-full p-2.5 shadow-sm"
+                          value={u.role}
+                          onChange={(e) => handleUpdateUserRole(u.id, e.target.value)}
+                          disabled={u.email === 'hdikemenagjember@gmail.com'} // Prevent changing default superadmin
+                        >
+                          <option value="public">Public (Masyarakat)</option>
+                          <option value="admin">Admin (Petugas)</option>
+                          <option value="leader">Leader (Pimpinan)</option>
+                          <option value="superadmin">Super Admin</option>
+                        </select>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       )}

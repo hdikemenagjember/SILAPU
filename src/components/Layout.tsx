@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router';
 import { useAuth } from '../contexts/AuthContext';
 import { loginWithGoogle, logout } from '../lib/firebase';
 import { Button } from './ui/button';
-import { LogIn, LogOut, Menu, UserCircle } from 'lucide-react';
+import { LogIn, LogOut, Menu, UserCircle, FileText } from 'lucide-react';
 
 export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { user, profile } = useAuth();
@@ -39,17 +39,23 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col">
-      <header className="bg-orange-600 text-white shadow-md sticky top-0 z-50">
+    <div className="min-h-screen bg-[#FAFAFA] flex flex-col font-sans text-slate-900 selection:bg-emerald-200 selection:text-emerald-900">
+      <header className="sticky top-0 z-50 bg-white/70 backdrop-blur-lg border-b border-slate-200/60 shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center">
-              <Link to="/" className="flex items-center gap-2">
-                <div className="w-8 h-8 bg-white rounded-full flex items-center justify-center">
-                  <span className="text-orange-600 font-bold text-xl">B</span>
+              <Link to="/" className="flex items-center gap-3 group">
+                <div className="w-10 h-10 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-xl flex items-center justify-center text-white shadow-md group-hover:shadow-lg group-hover:scale-105 transition-all duration-300">
+                  <FileText size={20} />
                 </div>
-                <span className="font-bold text-lg hidden sm:block">Bersinar - Layanan Publik</span>
-                <span className="font-bold text-lg sm:hidden">Bersinar</span>
+                <div className="flex flex-col">
+                  <span className="font-bold text-xl tracking-tight text-slate-900 hidden sm:block">
+                    Bersinar<span className="text-emerald-500">.</span>
+                  </span>
+                  <span className="font-bold text-xl tracking-tight text-slate-900 sm:hidden">
+                    Bersinar<span className="text-emerald-500">.</span>
+                  </span>
+                </div>
               </Link>
             </div>
             
@@ -57,32 +63,32 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
               {user ? (
                 <div className="flex items-center gap-4">
                   <div className="hidden md:flex items-center gap-2 text-sm">
-                    <UserCircle className="w-5 h-5" />
-                    <span>{profile?.name || user.displayName}</span>
-                    <span className="bg-orange-700 px-2 py-0.5 rounded-full text-xs uppercase tracking-wider">
+                    <UserCircle className="w-5 h-5 text-slate-400" />
+                    <span className="font-medium text-slate-700">{profile?.name || user.displayName}</span>
+                    <span className="bg-emerald-100 text-emerald-700 px-2.5 py-0.5 rounded-md text-xs font-semibold uppercase tracking-wider">
                       {profile?.role || 'public'}
                     </span>
                   </div>
                   
                   {profile?.role === 'admin' && (
-                    <Link to="/admin" className="text-sm hover:underline hidden sm:block">Admin Panel</Link>
+                    <Link to="/admin" className="text-sm font-medium text-slate-600 hover:text-emerald-600 transition-colors hidden sm:block">Admin Panel</Link>
                   )}
                   {profile?.role === 'leader' && (
-                    <Link to="/leader" className="text-sm hover:underline hidden sm:block">Pimpinan Panel</Link>
+                    <Link to="/leader" className="text-sm font-medium text-slate-600 hover:text-emerald-600 transition-colors hidden sm:block">Pimpinan Panel</Link>
                   )}
                   {profile?.role === 'superadmin' && (
-                    <Link to="/superadmin" className="text-sm hover:underline hidden sm:block">Super Admin</Link>
+                    <Link to="/superadmin" className="text-sm font-medium text-slate-600 hover:text-emerald-600 transition-colors hidden sm:block">Super Admin</Link>
                   )}
                   
-                  <Button variant="outline" size="sm" onClick={handleLogout} className="text-orange-600 border-white hover:bg-orange-50">
-                    <LogOut className="w-4 h-4 mr-2" />
-                    Keluar
+                  <Button variant="ghost" size="sm" onClick={handleLogout} className="text-slate-500 hover:text-red-600 hover:bg-red-50 rounded-full">
+                    <LogOut className="w-4 h-4 sm:mr-2" />
+                    <span className="hidden sm:inline">Keluar</span>
                   </Button>
                 </div>
               ) : (
-                <Button variant="outline" size="sm" onClick={handleLogin} className="text-orange-600 border-white hover:bg-orange-50">
+                <Button variant="outline" size="sm" onClick={handleLogin} className="text-emerald-700 border-emerald-200 bg-emerald-50/50 hover:bg-emerald-100 hover:border-emerald-300 shadow-sm rounded-full px-5">
                   <LogIn className="w-4 h-4 mr-2" />
-                  Login Admin / Pegawai
+                  Login Petugas
                 </Button>
               )}
             </div>
@@ -94,10 +100,18 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
         {children}
       </main>
 
-      <footer className="bg-gray-800 text-gray-300 py-8">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <p>&copy; {new Date().getFullYear()} Bersinar.</p>
-          <p className="text-sm mt-2 text-gray-400">Sistem Layanan Publik Terpadu</p>
+      <footer className="bg-white border-t border-slate-200 py-10 mt-auto">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-4">
+          <div className="flex items-center gap-2">
+            <div className="w-8 h-8 bg-emerald-100 rounded-lg flex items-center justify-center text-emerald-600">
+              <FileText size={16} />
+            </div>
+            <span className="font-semibold text-slate-800 tracking-tight">Bersinar</span>
+          </div>
+          <div className="text-center md:text-right">
+            <p className="text-slate-500 text-sm">&copy; {new Date().getFullYear()} Hak Cipta Dilindungi.</p>
+            <p className="text-xs mt-1 text-slate-400">Sistem Layanan Publik Terpadu Modern</p>
+          </div>
         </div>
       </footer>
     </div>

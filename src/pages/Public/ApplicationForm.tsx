@@ -127,18 +127,21 @@ export const ApplicationForm = () => {
         <ArrowLeft className="w-4 h-4 mr-2" /> Kembali
       </Button>
 
-      <Card className="border-orange-100 shadow-md">
-        <CardHeader className="bg-orange-50 border-b border-orange-100 rounded-t-xl">
-          <CardTitle className="text-2xl text-orange-900">{service.name}</CardTitle>
-          <CardDescription className="text-orange-700 text-base mt-2">{service.description}</CardDescription>
+      <Card className="bg-white/80 backdrop-blur-xl border-slate-200/60 shadow-xl shadow-slate-200/40 rounded-3xl overflow-hidden">
+        <CardHeader className="bg-gradient-to-r from-emerald-500/10 to-teal-500/5 border-b border-slate-100 px-8 py-8">
+          <CardTitle className="text-3xl font-bold text-slate-800 tracking-tight">{service.name}</CardTitle>
+          <CardDescription className="text-slate-600 text-base mt-2 leading-relaxed">{service.description}</CardDescription>
         </CardHeader>
-        <CardContent className="p-6">
+        <CardContent className="p-8">
           <form onSubmit={handleSubmit} className="space-y-6">
             
             {/* Default User Info Fields */}
-            <div className="space-y-4 bg-gray-50 p-4 rounded-lg border">
-              <h3 className="font-semibold text-gray-700 border-b pb-2">Data Pemohon</h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="space-y-6 bg-slate-50/50 p-6 rounded-2xl border border-slate-100">
+              <h3 className="font-semibold text-slate-800 text-lg flex items-center gap-2">
+                <div className="w-8 h-8 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center text-sm">1</div>
+                Data Pemohon
+              </h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-2">
                   <Label>Nama Lengkap</Label>
                   <Input 
@@ -146,7 +149,7 @@ export const ApplicationForm = () => {
                     defaultValue={profile?.name || user?.displayName || ''} 
                     onChange={handleChange}
                     disabled={!!user} 
-                    className={user ? "bg-gray-100" : ""} 
+                    className={`h-12 rounded-xl border-slate-200 focus:border-emerald-500 focus:ring-emerald-500 ${user ? "bg-slate-100 text-slate-500" : ""}`} 
                     required
                   />
                 </div>
@@ -158,7 +161,7 @@ export const ApplicationForm = () => {
                     defaultValue={profile?.email || user?.email || ''} 
                     onChange={handleChange}
                     disabled={!!user} 
-                    className={user ? "bg-gray-100" : ""} 
+                    className={`h-12 rounded-xl border-slate-200 focus:border-emerald-500 focus:ring-emerald-500 ${user ? "bg-slate-100 text-slate-500" : ""}`} 
                     required
                   />
                 </div>
@@ -169,9 +172,10 @@ export const ApplicationForm = () => {
                     placeholder="Contoh: 081234567890" 
                     defaultValue={profile?.phone || ''}
                     onChange={handleChange}
-                    required 
+                    className="h-12 rounded-xl border-slate-200 focus:border-emerald-500 focus:ring-emerald-500"
+                    required
                   />
-                  <p className="text-xs text-gray-500">Notifikasi akan dikirim ke nomor ini.</p>
+                  <p className="text-xs text-slate-500 mt-1">Notifikasi akan dikirim ke nomor ini.</p>
                 </div>
                 <div className="space-y-2">
                   <Label>NIK</Label>
@@ -180,7 +184,8 @@ export const ApplicationForm = () => {
                     placeholder="16 Digit NIK" 
                     defaultValue={profile?.nik || ''}
                     onChange={handleChange}
-                    required 
+                    className="h-12 rounded-xl border-slate-200 focus:border-emerald-500 focus:ring-emerald-500"
+                    required
                   />
                 </div>
               </div>
@@ -188,9 +193,12 @@ export const ApplicationForm = () => {
 
             {/* Dynamic Service Fields */}
             {service.fields && service.fields.length > 0 && (
-              <div className="space-y-4">
-                <h3 className="font-semibold text-gray-700 border-b pb-2">Data Persyaratan</h3>
-                <div className="grid grid-cols-1 gap-4">
+              <div className="space-y-6 bg-slate-50/50 p-6 rounded-2xl border border-slate-100 mt-8">
+                <h3 className="font-semibold text-slate-800 text-lg flex items-center gap-2">
+                  <div className="w-8 h-8 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center text-sm">2</div>
+                  Data Persyaratan
+                </h3>
+                <div className="grid grid-cols-1 gap-6">
                   {service.fields.map((field, idx) => (
                     <div key={idx} className="space-y-2">
                       <Label htmlFor={field.name}>
@@ -204,18 +212,19 @@ export const ApplicationForm = () => {
                           required={field.required}
                           onChange={handleChange}
                           placeholder={`Masukkan ${field.label.toLowerCase()}`}
+                          className="min-h-[120px] rounded-xl border-slate-200 focus:border-emerald-500 focus:ring-emerald-500"
                         />
                       ) : field.type === 'file' ? (
-                        <div className="border-2 border-dashed border-gray-300 rounded-md p-4 text-center hover:bg-gray-50 transition-colors">
+                        <div className="border-2 border-dashed border-slate-200 bg-white rounded-xl p-6 text-center hover:bg-emerald-50/50 hover:border-emerald-300 transition-colors group">
                           <Input 
                             type="file" 
                             id={field.name}
                             name={field.name}
                             required={field.required}
                             onChange={handleChange}
-                            className="cursor-pointer"
+                            className="cursor-pointer file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-emerald-50 file:text-emerald-700 hover:file:bg-emerald-100"
                           />
-                          <p className="text-xs text-gray-500 mt-2">Format PDF/JPG/PNG maksimal 2MB</p>
+                          <p className="text-xs text-slate-400 mt-3 font-medium">Format PDF/JPG/PNG maksimal 2MB</p>
                         </div>
                       ) : (
                         <Input 
@@ -225,6 +234,7 @@ export const ApplicationForm = () => {
                           required={field.required}
                           onChange={handleChange}
                           placeholder={`Masukkan ${field.label.toLowerCase()}`}
+                          className="h-12 rounded-xl border-slate-200 focus:border-emerald-500 focus:ring-emerald-500"
                         />
                       )}
                     </div>
@@ -233,8 +243,8 @@ export const ApplicationForm = () => {
               </div>
             )}
 
-            <div className="pt-6 border-t flex justify-end">
-              <Button type="submit" disabled={submitting} className="w-full sm:w-auto bg-orange-600 hover:bg-orange-700 text-lg py-6 px-8">
+            <div className="pt-8 flex justify-end">
+              <Button type="submit" disabled={submitting} className="w-full sm:w-auto bg-emerald-600 hover:bg-emerald-700 text-white text-lg py-6 px-10 rounded-full shadow-lg shadow-emerald-200 transition-transform hover:scale-105">
                 {submitting ? 'Mengirim...' : (
                   <>
                     <Send className="w-5 h-5 mr-2" /> Kirim Pengajuan
